@@ -213,8 +213,8 @@
 
 - (void)captureVideo:(CDVInvokedUrlCommand*)command
 {
-    AVCaptureSession *captureSession = [[AVCaptureSession alloc] init
-    captureSession.beginConfiguration()
+    AVCaptureSession* captureSession = [[AVCaptureSession alloc] init
+    [captureSession beginConfiguration]
     videoDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back)
     guard
         AVCaptureDeviceInput videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
