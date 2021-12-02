@@ -213,23 +213,23 @@
 
 - (void)captureVideo:(CDVInvokedUrlCommand*)command
 {
-    let captureSession = AVCaptureSession()
+    AVCaptureSession captureSession = AVCaptureSession()
     captureSession.beginConfiguration()
-    let videoDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back)
+    videoDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back)
     guard
-        let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
+        AVCaptureDeviceInput videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
         captureSession.canAddInput(videoDeviceInput)
         else { return }
     captureSession.addInput(videoDeviceInput)
 
-    let movieFileOutput = AVCaptureMovieFileOutput()
+    AVCaptureMovieFileOutput movieFileOutput = AVCaptureMovieFileOutput()
     guard captureSession.canAddOutput(movieFileOutput) else { return }
     // captureSession.sessionPreset = .video
     captureSession.addOutput(photoOutput)
     captureSession.commitConfiguration()
 
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    let fileUrl = paths[0].appendingPathComponent("output.mp4")
+    NSArray *paths = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+    NSURL *fileUrl = [paths lastObject].URLByAppendingPathComponent("output.mp4")
     try? FileManager.default.removeItem(at: fileUrl)
     movieFileOutput.startRecording(to: fileUrl, recordingDelegate: self)
 }
